@@ -65,6 +65,10 @@ public class printPlayers extends Canvas{
 		}
 		printPower();
 		g.drawImage(bimg, 0,0,this);
+		
+		if(catchWilk()) {	//	p2를 잡았는가
+			System.out.println("겜오버");
+		}
 	}
 	public void init() { 
 		this.bread = gr.p1;
@@ -72,6 +76,7 @@ public class printPlayers extends Canvas{
 		this.iList=gr.itemList;
 	}
 	
+	//	더블버퍼링
 	public void paint(Graphics g) {
 		if(buffg == null) {
 			bimg = createImage(800,700);
@@ -153,8 +158,8 @@ public class printPlayers extends Canvas{
 	}
 	
 	
+	//	파워, 스피드 출력
 	public void printPower() {
-		//	파워, 스피드 출력
 		String info1 = "1P\n"+gr.p1.getPower()+" 파워!\n"+gr.p1.getSpeed()+" 스피드!";
 		buffg.drawString(info1, 20, 580);
 		
@@ -162,4 +167,14 @@ public class printPlayers extends Canvas{
 		buffg.drawString(info2, 680, 580);
 	}
 	
+	//	2p를 잡음
+	public boolean catchWilk() {
+		int pointerX = bread.getX()+15;
+		int pointerY = bread.getY()+15;
+		
+		if((pointerX>=wilk.getX()&&pointerX<=wilk.getX()+pSize)&&(pointerY>=wilk.getY()&&pointerY<=wilk.getY()+pSize)) {
+			return true;
+		}
+		return false;
+	}
 }

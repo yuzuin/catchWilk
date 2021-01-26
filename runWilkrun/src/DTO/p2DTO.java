@@ -6,6 +6,7 @@ public class p2DTO {
 	private int y = 340;
 	private int move = 6;
 	private int power = 50; //기본 체력
+	private String outcome = null; //승패
 	
 	public p2DTO(){
 		//	1초마다 체력이 떨어짐 구현
@@ -101,5 +102,13 @@ public class p2DTO {
 		if(x<770) {
 			x=x+move;
 		}
+	}
+	
+	public String getOutcome() {
+		return outcome;
+	}
+
+	public void setOutcome(String outcome) {
+		this.outcome = outcome;
 	}
 }
