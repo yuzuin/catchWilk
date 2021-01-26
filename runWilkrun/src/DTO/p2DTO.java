@@ -7,6 +7,24 @@ public class p2DTO {
 	private int move = 6;
 	private int power = 50; //기본 체력
 	
+	public p2DTO(){
+		//	1초마다 체력이 떨어짐 구현
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while(true) {
+					try {
+						Thread.sleep(1000);
+						running();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
+	}
+	
+	/* 속도 , 체력 */
 	public int getPower() {
 		return power;
 	}
@@ -33,6 +51,9 @@ public class p2DTO {
 		if(move>=0) {
 		move=move-3;
 		}
+	}
+	public void running() {
+		power=power-1;
 	}
 	
 	public String getName() {

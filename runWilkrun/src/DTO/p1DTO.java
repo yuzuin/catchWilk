@@ -7,7 +7,24 @@ public class p1DTO {
 	private int move = 6;
 	private int power = 50; //기본 체력
 	
+	public p1DTO(){
+		//	1초마다 체력이 떨어짐 구현
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while(true) {
+					try {
+						Thread.sleep(1000);
+						running();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
+	}
 	
+	/* 속도 , 체력 */
 	public int getPower() {
 		return power;
 	}
@@ -16,7 +33,6 @@ public class p1DTO {
 		return move;
 	}
 	
-	//	템 먹으면 power+10
 	public void plusPower() {
 		power=power+10;
 	}
@@ -25,7 +41,6 @@ public class p1DTO {
 		power = power-10;
 	}
 	
-	//	속도
 	public void plusMove() {
 		move=move+3;
 	}
@@ -34,6 +49,10 @@ public class p1DTO {
 		if(move>=0) {
 		move=move-3;
 		}
+	}
+	
+	public void running() {
+		power=power-1;
 	}
 	
 	public String getName() {

@@ -39,6 +39,20 @@ public class printPlayers extends Canvas{
 //		System.out.println(this.getClass().getResource("../img/bread_30x30.png"));
 		this.gr=gr;
 		this.setBackground(Color.pink);
+		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while(true) {
+					try {
+						Thread.sleep(30);
+						repaint();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
 	}
 	
 	public void update(Graphics g) {
@@ -46,7 +60,9 @@ public class printPlayers extends Canvas{
 		init();
 		buffg.drawImage(breadImg, bread.getX(), bread.getY(),null);
 		buffg.drawImage(wilkImg, wilk.getX(), wilk.getY(),null);
-		printItems();
+		if(iList!=null) {
+			printItems();
+		}
 		printPower();
 		g.drawImage(bimg, 0,0,this);
 	}
@@ -125,16 +141,12 @@ public class printPlayers extends Canvas{
 	//	4∞≥¿« ∏º≠∏Æ∑Œ ¥Ÿ ∏‘¿ª ºˆ ¿÷∞‘..
 	public boolean eat(int px,int ix,int py,int iy,int iWidth,int iHeight) {
 		if((px<=ix+iWidth&&px>=ix)&&(py<=iy+iHeight&&py>=iy)) {
-			System.out.println("∏‘¿Ω");
 			return true;
 		}else if((px+pSize<=ix+iWidth&&px+pSize>=ix)&&(py<=iy+iHeight&&py>=iy)) {
-			System.out.println("∏‘¿Ω");
 			return true;
 		}else if((px+pSize<=ix+iWidth&&px+pSize>=ix)&&(py+pSize<=iy+iHeight&&py+pSize>=iy)) {
-			System.out.println("∏‘¿Ω");
 			return true;
 		}else if((px<=ix+iWidth&&px>=ix)&&(py+pSize<=iy+iHeight&&py+pSize>=iy)) {
-			System.out.println("∏‘¿Ω");
 			return true;
 		}
 		return false;
