@@ -36,8 +36,10 @@ public class GameRoom {
 	private void gameGo() {
 		//	템
 		while(true) {
+			System.out.println(gg.itemStart);
+			boolean start = gg.itemStart;
 			try {
-				if(gg.itemStart) {	//	게임 시작도 전에 아이템 생성 방지
+				if(start) {	//	게임 시작도 전에 아이템 생성 방지
 					Thread.sleep(2000);
 					int k = r.nextInt(items.length);
 					itemDTO item = new itemDTO();

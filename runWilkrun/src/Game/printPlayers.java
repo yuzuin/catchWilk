@@ -19,6 +19,12 @@ public class printPlayers extends Canvas{
 	private p1DTO bread = null;
 	private p2DTO wilk = null;
 	private int pSize = 30; 	// player Size
+	private boolean gaming = true;
+	
+	//시간
+	private float time = 0;
+	private String prtTime;
+	private float timeTaken;
 	
 	//	아이템
 	private ArrayList<itemDTO> iList = null;
@@ -43,9 +49,11 @@ public class printPlayers extends Canvas{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while(true) {
+				while(gaming) {
 					try {
 						Thread.sleep(30);
+						time = (float)(time+0.01);
+						prtTime = String.valueOf((float)time);
 						repaint();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -60,14 +68,19 @@ public class printPlayers extends Canvas{
 		init();
 		buffg.drawImage(breadImg, bread.getX(), bread.getY(),null);
 		buffg.drawImage(wilkImg, wilk.getX(), wilk.getY(),null);
+		buffg.drawString(prtTime, 600, 75);
 		if(iList!=null) {
 			printItems();
 		}
 		printPower();
 		g.drawImage(bimg, 0,0,this);
 		
-		if(catchWilk()) {	//	p2를 잡았는가
+		//	게임오버
+		if(catchWilk()||bread.getPower()<=0||wilk.getPower()<=0) {	//	p2를 잡았는가
 			System.out.println("겜오버");
+			gaming=false;	// while문을 끝냄
+			timeTaken = time;
+			System.out.println(time);
 		}
 	}
 	public void init() { 
