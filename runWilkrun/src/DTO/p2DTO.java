@@ -7,6 +7,8 @@ public class p2DTO {
 	private int move = 6;
 	private int power = 50; //기본 체력
 	private String outcome = null; //승패
+	private float time = -1;
+	private String enemy=null;
 	
 	public p2DTO(){
 		//	1초마다 체력이 떨어짐 구현
@@ -110,5 +112,25 @@ public class p2DTO {
 
 	public void setOutcome(String outcome) {
 		this.outcome = outcome;
+	}
+
+	public float getTime() {
+		return time;
+	}
+
+	public void setTime(float time) {
+		this.time = time;
+	}
+
+	public String getEnemy() {
+		return enemy;
+	}
+
+	public void setEnemy(String enemy) {
+		this.enemy = enemy;
+	}
+
+	public int getMove() {
+		return move;
 	}
 }

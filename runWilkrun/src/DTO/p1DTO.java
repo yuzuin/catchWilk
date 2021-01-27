@@ -7,6 +7,8 @@ public class p1DTO {
 	private int move = 6;
 	private int power = 30; //기본 체력 *브레드는 이기는 경우가 2가지이므로 체력에 패널티
 	private String outcome = null; //승패
+	private float time = -1;
+	private String enemy=null;
 	
 	public p1DTO(){
 		//	1초마다 체력이 떨어짐 구현
@@ -109,4 +111,26 @@ public class p1DTO {
 	public void setOutcome(String outcome) {
 		this.outcome = outcome;
 	}
+
+	public float getTime() {
+		return time;
+	}
+
+	public void setTime(float time) {
+		this.time = time;
+	}
+
+	public String getEnemy() {
+		return enemy;
+	}
+
+	public void setEnemy(String enemy) {
+		this.enemy = enemy;
+	}
+
+	public int getMove() {
+		return move;
+	}
+	
+	
 }

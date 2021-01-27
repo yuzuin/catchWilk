@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import DTO.itemDTO;
 import DTO.p1DTO;
 import DTO.p2DTO;
+import jdbc.p1DAO;
 
 public class printPlayers extends Canvas{
 	
@@ -49,9 +50,6 @@ public class printPlayers extends Canvas{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				if(gr.start) {
-					
-				}
 				while(gaming) {
 					try {
 						Thread.sleep(30);
@@ -63,6 +61,9 @@ public class printPlayers extends Canvas{
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+				}
+				if(!gaming) {
+					gameover();
 				}
 			}
 		}).start();
@@ -81,13 +82,10 @@ public class printPlayers extends Canvas{
 		g.drawImage(bimg, 0,0,this);
 		
 		//	게임오버
-		if(catchWilk()||bread.getPower()<=0||wilk.getPower()<=0) {	//	p2를 잡았는가
-			System.out.println("겜오버");
+		if(catchWilk()||bread.getPower()<=0||wilk.getPower()<=0||wilk.getPower()>=160) {	//	p2를 잡았는가
 			gaming=false;	// while문을 끝냄
 			timeTaken = time;
 			System.out.println(time);
-			/* 게임오버 후 액션 */
-			
 		}
 	}
 	public void init() { 
@@ -196,5 +194,15 @@ public class printPlayers extends Canvas{
 			return true;
 		}
 		return false;
+	}
+	
+	/* 게임오버 후 액션 */
+	public void gameover() {
+		System.out.println("겜오버");
+		bread.setTime(time);
+		bread.setEnemy(wilk.getName());
+		bread.setOutcome("win");
+		p1DAO dbp1 = new p1DAO();
+		dbp1.insert(bread);
 	}
 }
