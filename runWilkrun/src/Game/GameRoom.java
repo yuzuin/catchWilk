@@ -9,6 +9,9 @@ import DTO.p2DTO;
 
 public class GameRoom {
 	
+	//	제어
+	boolean start=false;	//	pp에서도 씀
+	
 	// 이 관계가 너무 어려워..ㅠㅠㅠ
 	private printPlayers pp = null;
 	private gameGUI gg = null;
@@ -37,7 +40,7 @@ public class GameRoom {
 		//	템
 		while(true) {
 			System.out.println(gg.itemStart);
-			boolean start = gg.itemStart;
+			start = gg.itemStart;
 			try {
 				if(start) {	//	게임 시작도 전에 아이템 생성 방지
 					Thread.sleep(2000);

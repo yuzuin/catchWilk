@@ -49,11 +49,16 @@ public class printPlayers extends Canvas{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				if(gr.start) {
+					
+				}
 				while(gaming) {
 					try {
 						Thread.sleep(30);
-						time = (float)(time+0.01);
-						prtTime = String.valueOf((float)time);
+						if(gr.start) {	//	시작하고 초 세기
+							time = (float)(time+0.03);
+							prtTime = String.valueOf((float)time);
+						}
 						repaint();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -81,6 +86,8 @@ public class printPlayers extends Canvas{
 			gaming=false;	// while문을 끝냄
 			timeTaken = time;
 			System.out.println(time);
+			/* 게임오버 후 액션 */
+			
 		}
 	}
 	public void init() { 
