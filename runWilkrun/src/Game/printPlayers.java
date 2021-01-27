@@ -4,11 +4,15 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 
 import DTO.gameDTO;
@@ -51,12 +55,14 @@ public class printPlayers extends Canvas{
 	private Image powerupImg = new ImageIcon(this.getClass().getResource("../img/powerup_70x70.png")).getImage();
 	private Image powerdownImg = new ImageIcon(this.getClass().getResource("../img/powerdown_70x70.png")).getImage();
 	
+	//	bgm
+	File file = new File("./src/sound/ingameBGM.wav");
+	
 	printPlayers(GameRoom gr){
 //		System.out.println(this.getClass().getResource("../img/bread_30x30.png"));
 		this.gr=gr;
 		this.setBackground(Color.white);
 		this.game = new gameDTO();
-		
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -261,5 +267,19 @@ public class printPlayers extends Canvas{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
 		String datestr = sdf.format(cal.getTime());
 		game.setPlayTime(datestr);
+	}
+	
+	
+	public void ingameBGM() {
+		try {
+			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
+			System.out.println(file.exists());
+			Clip clip = AudioSystem.getClip();
+//			clip.stop();
+			clip.open(ais);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
