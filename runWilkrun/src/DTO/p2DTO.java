@@ -91,7 +91,7 @@ public class p2DTO {
 		}
 	}
 	public void goDown() {
-		if(y<600) {
+		if(y<690) {
 			y=y+move;
 		}
 	}
@@ -101,7 +101,7 @@ public class p2DTO {
 		}
 	}
 	public void goRight() {
-		if(x<770) {
+		if(x<790) {
 			x=x+move;
 		}
 	}

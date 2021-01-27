@@ -43,14 +43,18 @@ public class printPlayers extends Canvas{
 	// 이미지
 	private Graphics buffg; // 더블버퍼링
 	private Image bimg = null;
+	private Image back = new ImageIcon(this.getClass().getResource("../img/background.png")).getImage();
 	private Image breadImg = new ImageIcon(this.getClass().getResource("../img/bread_30x30.png")).getImage();
 	private Image wilkImg = new ImageIcon(this.getClass().getResource("../img/wilk_30x30.png")).getImage();
-	private Image butterImg = new ImageIcon(this.getClass().getResource("../img/butter_50x68.png")).getImage();
+	private Image speedupImg = new ImageIcon(this.getClass().getResource("../img/speedup_70x70.png")).getImage();
+	private Image speeddownImg = new ImageIcon(this.getClass().getResource("../img/speeddown_70x70.png")).getImage();
+	private Image powerupImg = new ImageIcon(this.getClass().getResource("../img/powerup_70x70.png")).getImage();
+	private Image powerdownImg = new ImageIcon(this.getClass().getResource("../img/powerdown_70x70.png")).getImage();
 	
 	printPlayers(GameRoom gr){
 //		System.out.println(this.getClass().getResource("../img/bread_30x30.png"));
 		this.gr=gr;
-		this.setBackground(Color.pink);
+		this.setBackground(Color.white);
 		this.game = new gameDTO();
 		
 		new Thread(new Runnable() {
@@ -99,6 +103,7 @@ public class printPlayers extends Canvas{
 		this.bread = gr.p1;
 		this.wilk = gr.p2;
 		this.iList=gr.itemList;
+		buffg.drawImage(back, 0, 0,null);
 	}
 	
 	//	더블버퍼링
@@ -118,10 +123,16 @@ public class printPlayers extends Canvas{
 		if(iList!=null) {
 			for(int i=0;i<iList.size();i++) {
 				if(iList.get(i).getName().equals("speedup")) {
-					buffg.drawImage(butterImg, iList.get(i).getX(), iList.get(i).getY(),null);
-				}else {
-					buffg.drawString(iList.get(i).getName(), iList.get(i).getX(), iList.get(i).getY());
+					buffg.drawImage(speedupImg, iList.get(i).getX(), iList.get(i).getY(),null);
+				}else if(iList.get(i).getName().equals("speeddown")) {
+					buffg.drawImage(speeddownImg, iList.get(i).getX(), iList.get(i).getY(),null);
+				}else if(iList.get(i).getName().equals("powerup")) {
+					buffg.drawImage(powerupImg, iList.get(i).getX(), iList.get(i).getY(),null);
+				}else if(iList.get(i).getName().equals("powerdown")) {
+					buffg.drawImage(powerdownImg, iList.get(i).getX(), iList.get(i).getY(),null);
 				}
+				
+				
 				p1X = gr.p1.getX();
 				p1Y = gr.p1.getY();
 				p2X = gr.p2.getX();
@@ -131,7 +142,7 @@ public class printPlayers extends Canvas{
 				
 				//	템먹기 구현
 				if(iList!=null) {
-					if(eat(p1X,iX,p1Y,iY,50,68)) {
+					if(eat(p1X,iX,p1Y,iY,70,70)) {
 						if(iList.get(i).getName().equals("speedup")) {
 							gr.p1.plusMove();
 							iList.remove(i);
@@ -148,7 +159,7 @@ public class printPlayers extends Canvas{
 					}
 				}
 				if(iList!=null) {
-					if(eat(p2X,iX,p2Y,iY,50,68)) {
+					if(eat(p2X,iX,p2Y,iY,70,70)) {
 						if(iList.get(i).getName().equals("speedup")) {
 							gr.p2.plusMove();
 							iList.remove(i);
