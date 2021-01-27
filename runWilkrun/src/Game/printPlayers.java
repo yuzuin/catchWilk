@@ -4,15 +4,18 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import DTO.gameDTO;
 import DTO.itemDTO;
 import DTO.p1DTO;
 import DTO.p2DTO;
-import jdbc.p1DAO;
+import jdbc.DAO;
 
 public class printPlayers extends Canvas{
 	
@@ -21,11 +24,13 @@ public class printPlayers extends Canvas{
 	private p2DTO wilk = null;
 	private int pSize = 30; 	// player Size
 	private boolean gaming = true;
+	private gameDTO game = null; 	//	겜정보
 	
 	//시간
 	private float time = 0;
 	private String prtTime;
 	private float timeTaken;
+	private Calendar cal;
 	
 	//	아이템
 	private ArrayList<itemDTO> iList = null;
@@ -46,10 +51,12 @@ public class printPlayers extends Canvas{
 //		System.out.println(this.getClass().getResource("../img/bread_30x30.png"));
 		this.gr=gr;
 		this.setBackground(Color.pink);
+		this.game = new gameDTO();
 		
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				cal = Calendar.getInstance();
 				while(gaming) {
 					try {
 						Thread.sleep(30);
@@ -82,8 +89,8 @@ public class printPlayers extends Canvas{
 		g.drawImage(bimg, 0,0,this);
 		
 		//	게임오버
-		if(catchWilk()||bread.getPower()<=0||wilk.getPower()<=0||wilk.getPower()>=160) {	//	p2를 잡았는가
-			gaming=false;	// while문을 끝냄
+		if(catchWilk()) {	//	게임이 끝나는 조건을 만족하는가?
+			gaming=false;	// repaint가 돌고 있는 while문을 끝냄
 			timeTaken = time;
 			System.out.println(time);
 		}
@@ -191,18 +198,57 @@ public class printPlayers extends Canvas{
 		int pointerY = bread.getY()+15;
 		
 		if((pointerX>=wilk.getX()&&pointerX<=wilk.getX()+pSize)&&(pointerY>=wilk.getY()&&pointerY<=wilk.getY()+pSize)) {
+			bread.setOutcome("win");	//	브레드가 이긴 경우
+			wilk.setOutcome("lose");
+			game.setWinner("P1");
 			return true;
+		}else if(bread.getPower()<=0) {
+			wilk.setOutcome("win");	//	윌크가 이긴 경우
+			bread.setOutcome("lose");
+			game.setWinner("P2");
+			return true;
+		}else if(wilk.getPower()<=0) {
+			bread.setOutcome("win");	//	브레드가 이긴 경우
+			wilk.setOutcome("lose");
+			game.setWinner("P1");
+			return true;
+		}else if(wilk.getPower()>=160) {
+			wilk.setOutcome("win");	//	윌크가 이긴 경우
+			bread.setOutcome("lose");
+			game.setWinner("P2");
+			return true;
+		}else if(wilk.getSpeed()<=0&&bread.getSpeed()<=0) {	//	둘 다 움직일 수 없으므로 무승부
+			wilk.setOutcome("draw");
+			bread.setOutcome("draw");
 		}
 		return false;
 	}
 	
-	/* 게임오버 후 액션 */
+	/* 게임오버 후 액션 -> DB에 정보 넣어주기 */
 	public void gameover() {
 		System.out.println("겜오버");
 		bread.setTime(time);
 		bread.setEnemy(wilk.getName());
-		bread.setOutcome("win");
-		p1DAO dbp1 = new p1DAO();
-		dbp1.insert(bread);
+		wilk.setTime(time);
+		wilk.setEnemy(bread.getName());
+		DAO db = new DAO();
+		//	db 테이블에 (player1, player2) insert
+		db.insert(bread);
+		db.insert(wilk);
+		
+		//게임리스트
+		setCalendar();
+		game.setP1(bread.getName());
+		game.setP2(wilk.getName());
+		game.setRunning(time);
+		db.insert(game);
+		
+	}
+	
+	/* 게임 플레이한 시간 셋*/
+	public void setCalendar() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
+		String datestr = sdf.format(cal.getTime());
+		game.setPlayTime(datestr);
 	}
 }
