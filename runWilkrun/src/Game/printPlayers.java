@@ -44,6 +44,7 @@ public class printPlayers extends Canvas{
 	private int p2X;
 	private int p2Y;
 	
+	
 	// 이미지
 	private Graphics buffg; // 더블버퍼링
 	private Image bimg = null;
@@ -54,9 +55,11 @@ public class printPlayers extends Canvas{
 	private Image speeddownImg = new ImageIcon(this.getClass().getResource("../img/speeddown_70x70.png")).getImage();
 	private Image powerupImg = new ImageIcon(this.getClass().getResource("../img/powerup_70x70.png")).getImage();
 	private Image powerdownImg = new ImageIcon(this.getClass().getResource("../img/powerdown_70x70.png")).getImage();
+	private Image gameoverImg = new ImageIcon(this.getClass().getResource("../img/gameover.png")).getImage();
 	
 	//	bgm
-	File file = new File("./src/sound/ingameBGM.wav");
+	private File eat = new File("./src/sound/eat.wav");
+	private File gameOverSnd = new File("./src/sound/gameoverSound.wav");
 	
 	printPlayers(GameRoom gr){
 //		System.out.println(this.getClass().getResource("../img/bread_30x30.png"));
@@ -80,6 +83,7 @@ public class printPlayers extends Canvas{
 					}
 				}
 				if(!gaming) {
+					repaint();
 					gameover();
 				}
 			}
@@ -87,22 +91,27 @@ public class printPlayers extends Canvas{
 	}
 	
 	public void update(Graphics g) {
-		buffg.clearRect(0,00,800,700);
-		init();
-		buffg.drawImage(breadImg, bread.getX(), bread.getY(),null);
-		buffg.drawImage(wilkImg, wilk.getX(), wilk.getY(),null);
-		buffg.drawString(prtTime, 600, 75);
-		if(iList!=null) {
-			printItems();
-		}
-		printPower();
-		g.drawImage(bimg, 0,0,this);
-		
-		//	게임오버
-		if(catchWilk()) {	//	게임이 끝나는 조건을 만족하는가?
-			gaming=false;	// repaint가 돌고 있는 while문을 끝냄
-			timeTaken = time;
-			System.out.println(time);
+		if(gaming) {	//	게임중일 때 
+			buffg.clearRect(0,00,800,700);
+			init();
+			buffg.drawImage(breadImg, bread.getX(), bread.getY(),null);
+			buffg.drawImage(wilkImg, wilk.getX(), wilk.getY(),null);
+			buffg.drawString(prtTime, 600, 75);
+			if(iList!=null) {
+				printItems();
+			}
+			printPower();
+			g.drawImage(bimg, 0,0,this);
+			
+			//	게임오버
+			if(catchWilk()) {	//	게임이 끝나는 조건을 만족하는가?
+				gaming=false;	// repaint가 돌고 있는 while문을 끝냄
+				gameoverSound();
+				timeTaken = time;
+			}
+		}else {	//	게임이 끝났을 때
+			buffg.drawImage(gameoverImg, 0, 0,null);
+			g.drawImage(bimg, 0,0,this);
 		}
 	}
 	public void init() { 
@@ -138,7 +147,6 @@ public class printPlayers extends Canvas{
 					buffg.drawImage(powerdownImg, iList.get(i).getX(), iList.get(i).getY(),null);
 				}
 				
-				
 				p1X = gr.p1.getX();
 				p1Y = gr.p1.getY();
 				p2X = gr.p2.getX();
@@ -150,15 +158,19 @@ public class printPlayers extends Canvas{
 				if(iList!=null) {
 					if(eat(p1X,iX,p1Y,iY,70,70)) {
 						if(iList.get(i).getName().equals("speedup")) {
+							eatSound();
 							gr.p1.plusMove();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("speeddown")) {
+							eatSound();
 							gr.p1.minusMove();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("powerup")) {
+							eatSound();
 							gr.p1.plusPower();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("powerdown")) {
+							eatSound();
 							gr.p1.minusPower();
 							iList.remove(i);
 						}
@@ -167,15 +179,19 @@ public class printPlayers extends Canvas{
 				if(iList!=null) {
 					if(eat(p2X,iX,p2Y,iY,70,70)) {
 						if(iList.get(i).getName().equals("speedup")) {
+							eatSound();
 							gr.p2.plusMove();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("speeddown")) {
+							eatSound();
 							gr.p2.minusMove();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("powerup")) {
+							eatSound();
 							gr.p2.plusPower();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("powerdown")) {
+							eatSound();
 							gr.p2.minusPower();
 							iList.remove(i);
 						}
@@ -218,6 +234,7 @@ public class printPlayers extends Canvas{
 			bread.setOutcome("win");	//	브레드가 이긴 경우
 			wilk.setOutcome("lose");
 			game.setWinner("P1");
+			
 			return true;
 		}else if(bread.getPower()<=0) {
 			wilk.setOutcome("win");	//	윌크가 이긴 경우
@@ -269,11 +286,21 @@ public class printPlayers extends Canvas{
 		game.setPlayTime(datestr);
 	}
 	
-	
-	public void ingameBGM() {
+	public void eatSound() {
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
-			System.out.println(file.exists());
+			AudioInputStream ais = AudioSystem.getAudioInputStream(eat);
+			Clip clip = AudioSystem.getClip();
+//			clip.stop();
+			clip.open(ais);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void gameoverSound() {
+		try {
+			AudioInputStream ais = AudioSystem.getAudioInputStream(gameOverSnd);
 			Clip clip = AudioSystem.getClip();
 //			clip.stop();
 			clip.open(ais);

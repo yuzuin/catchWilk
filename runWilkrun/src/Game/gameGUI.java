@@ -2,28 +2,38 @@ package Game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.SystemColor;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import DTO.p1DTO;
 import DTO.p2DTO;
 
-public class gameGUI extends JFrame implements ActionListener{
+public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	
-	//라벨, 텍스트필드
-	private JLabel title = new JLabel("도망쳐 윌크!!");
+	//	이미지
+	private Image background = new ImageIcon(this.getClass().getResource("../img/start.png")).getImage();
+	private File startIcon = new File("./src/img/startBtn.png");
+	
+	//라벨, 텍스트필드, 콘테이너
 	private JTextField input1P = new JTextField(); ;
 	private JTextField input2P = new JTextField();
-	private JButton startBtn = new JButton("게임 시작");
+	private JButton startBtn = new JButton(new ImageIcon(startIcon.getAbsolutePath()));
 	private JPanel startPanel = new JPanel();
 	private JLabel scondLabel = new JLabel(); //초세기
 	
@@ -32,9 +42,12 @@ public class gameGUI extends JFrame implements ActionListener{
 	private printPlayers pp = null; // 게임 캔버스
 	private GameRoom gr = null;
 	private Key key = null;
+	private File file = new File("./src/sound/ingameBGM.wav");
 	
 	//조건
 	boolean itemStart = false;
+	
+	
 	
 	gameGUI(GameRoom gr,printPlayers pp){
 		this.pp=pp;
@@ -49,53 +62,49 @@ public class gameGUI extends JFrame implements ActionListener{
 
 	private void setFrame() {
 		this.setBounds(270,10,800,700);
-		title.setHorizontalAlignment(SwingConstants.CENTER);
-		title.setBackground(new Color(64, 64, 64));
-		title.setForeground(Color.RED);
-		title.setFont(new Font("한컴바탕", Font.BOLD, 31));
-		this.add(title, BorderLayout.NORTH);
+		
+		this.setUndecorated(true);
+		this.getContentPane().setLayout(new java.awt.BorderLayout(0,0));
 		this.setVisible(true);
 		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+		
 	}
 	
 	public void startFrame() {
 		
-		startPanel.setBackground(SystemColor.textHighlight);
+		startPanel.setBackground(new Color(255,0,0,0));
+		startPanel.setBounds(10, 30, 600, 600);
 		this.add(startPanel, BorderLayout.CENTER);
 		startPanel.setLayout(null);
 		
+		//	input이 들어있는 panel
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(219, 201, 346, 24);
+		panel_1.setBounds(200, 235, 400, 200);
 		startPanel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel player1Lbl = new JLabel("플레이어1의 이름 ");
-		player1Lbl.setBounds(0, 0, 170, 24);
-		panel_1.add(player1Lbl);
-		player1Lbl.setFont(new Font("굴림체", Font.PLAIN, 20));
-		
-		
-		input1P.setBounds(175, 1, 171, 21);
+		//	input 1P / 2P
+		input1P.setBounds(160, 36, 190, 30);
 		panel_1.add(input1P);
-		input1P.setColumns(15);
+		input1P.setColumns(20);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(219, 300, 346, 25);
+		panel_2.setBounds(0, 0, 346, 300);
 		startPanel.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel player1Lbl_2 = new JLabel("플레이어2의 이름");
-		player1Lbl_2.setBounds(0, 0, 160, 24);
-		panel_2.add(player1Lbl_2);
-		player1Lbl_2.setFont(new Font("굴림체", Font.PLAIN, 20));
+		input2P.setBounds(160, 108, 190, 30);
+		panel_1.add(input2P);
+		input2P.setColumns(20);
 		
-		input2P.setBounds(175, 4, 171, 21);
-		panel_2.add(input2P);
-		input2P.setColumns(15);
-		
-		
-		startBtn.setFont(new Font("11롯데마트드림Bold", Font.PLAIN, 32));
-		startBtn.setBounds(293, 441, 197, 80);
+		//	겜시작 버튼
+		startBtn.setBounds(365, 480, 80, 80);
+		startPanel.setBackground(new Color(255,0,0,0));
+		startPanel.setOpaque(false);
+		startBtn.setBorderPainted(false);
+		startBtn.setContentAreaFilled(false);
+		startBtn.setFocusPainted(false);
+		startBtn.setOpaque(false);
 		startPanel.add(startBtn);
 	}
 	
@@ -106,21 +115,17 @@ public class gameGUI extends JFrame implements ActionListener{
 		this.add(pp,"Center");
 		pp.requestFocus();	// 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
 		pp.addKeyListener(new Key(gr,this,pp));  // pp가 이벤트를 받아야하므로. 중요!!!
-		this.remove(title);
+		ingameBGM();
 		this.setVisible(true);
 	}
 	
-//	public void cntSecond(String cnt) {
-//		scondLabel.setText(cnt);
-//		scondLabel.setForeground(UIManager.getColor("TextArea.selectionBackground"));
-//		scondLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//		scondLabel.setFont(new Font("HY백송B", Font.BOLD | Font.ITALIC, 99));
-//		this.add(scondLabel, BorderLayout.CENTER);
-//		this.setVisible(true); //	비저블-트루를 넣어야 panel이 지워지고, 새로운 화면이 보임.
-//	}
+	public void paint(Graphics g) {
+		g.drawImage(background, 0,0,null);
+	}
 	
 	public void addLis() {
 		startBtn.addActionListener(this);
+		this.addKeyListener(this);
 	}
 
 	@Override
@@ -152,5 +157,39 @@ public class gameGUI extends JFrame implements ActionListener{
 				inGame(); //	겜시작
 			}
 		}
+	}
+	
+	public void ingameBGM() {
+		try {
+			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
+			System.out.println(file.exists());
+			Clip clip = AudioSystem.getClip();
+//			clip.stop();
+			clip.open(ais);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// 	ESC 누를 시 종료
+		if(e.getKeyCode()==27) {
+	    	  System.exit(0);
+	      }
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -96,6 +96,8 @@ public class Key extends Thread implements KeyListener{
          int keyCode = e.getKeyCode();
          pressedKeys.add(keyCode);
          if(!timer.isRunning()) timer.start();
+      }else if(e.getKeyCode()==27) {
+    	  System.exit(0);
       }
    }
 
