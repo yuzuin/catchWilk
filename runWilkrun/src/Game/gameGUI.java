@@ -2,6 +2,7 @@ package Game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -47,6 +48,9 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	//조건
 	boolean itemStart = false;
 	
+	//	sound
+	AudioInputStream ais;
+	Clip clip;
 	
 	
 	gameGUI(GameRoom gr,printPlayers pp){
@@ -115,7 +119,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		this.add(pp,"Center");
 		pp.requestFocus();	// 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
 		pp.addKeyListener(new Key(gr,this,pp));  // pp가 이벤트를 받아야하므로. 중요!!!
-		ingameBGM();
+		pp.ingameBGM();
 		this.setVisible(true);
 	}
 	
@@ -158,20 +162,6 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 			}
 		}
 	}
-	
-	public void ingameBGM() {
-		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(file);
-			System.out.println(file.exists());
-			Clip clip = AudioSystem.getClip();
-//			clip.stop();
-			clip.open(ais);
-			clip.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -191,5 +181,13 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void AfterGame(printOver po) {
+		this.remove(pp);
+		System.out.println("피피치움");
+		this.add(po,"Center");
+		this.setVisible(true);
+		System.out.println("피오추가");
 	}
 }

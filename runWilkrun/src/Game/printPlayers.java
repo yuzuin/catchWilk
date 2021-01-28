@@ -29,6 +29,8 @@ public class printPlayers extends Canvas{
 	private int pSize = 30; 	// player Size
 	private boolean gaming = true;
 	private gameDTO game = null; 	//	겜정보
+	private gameGUI gg = null;
+	private printOver po = null;
 	
 	//시간
 	private float time = 0;
@@ -58,8 +60,12 @@ public class printPlayers extends Canvas{
 	private Image gameoverImg = new ImageIcon(this.getClass().getResource("../img/gameover.png")).getImage();
 	
 	//	bgm
+	private boolean bgm = true;
 	private File eat = new File("./src/sound/eat.wav");
 	private File gameOverSnd = new File("./src/sound/gameoverSound.wav");
+	private File file = new File("./src/sound/ingameBGM.wav");
+	private AudioInputStream bgmAis;
+	private Clip bgmClip;
 	
 	printPlayers(GameRoom gr){
 //		System.out.println(this.getClass().getResource("../img/bread_30x30.png"));
@@ -83,6 +89,7 @@ public class printPlayers extends Canvas{
 					}
 				}
 				if(!gaming) {
+					bgmClip.stop();
 					repaint();
 					gameover();
 				}
@@ -110,8 +117,12 @@ public class printPlayers extends Canvas{
 				timeTaken = time;
 			}
 		}else {	//	게임이 끝났을 때
-			buffg.drawImage(gameoverImg, 0, 0,null);
-			g.drawImage(bimg, 0,0,this);
+			try {
+				Thread.sleep(1000);
+				buffg.drawImage(gameoverImg, 0, 0,null);
+				g.drawImage(bimg, 0,0,this);
+			} catch (Exception e) {
+			}
 		}
 	}
 	public void init() { 
@@ -225,7 +236,7 @@ public class printPlayers extends Canvas{
 		buffg.drawString(info2, 680, 580);
 	}
 	
-	//	2p를 잡음
+	//	승패
 	public boolean catchWilk() {
 		int pointerX = bread.getX()+15;
 		int pointerY = bread.getY()+15;
@@ -277,6 +288,8 @@ public class printPlayers extends Canvas{
 		game.setRunning(time);
 		db.insert(game);
 		
+		po = new printOver(gr);	//	겜후 화면 출력
+		gg.AfterGame(po);
 	}
 	
 	/* 게임 플레이한 시간 셋*/
@@ -299,12 +312,27 @@ public class printPlayers extends Canvas{
 	}
 	
 	public void gameoverSound() {
+		
 		try {
 			AudioInputStream ais = AudioSystem.getAudioInputStream(gameOverSnd);
 			Clip clip = AudioSystem.getClip();
-//			clip.stop();
 			clip.open(ais);
 			clip.start();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void getGG(gameGUI gg) {
+		this.gg=gg;
+	}
+	
+	public void ingameBGM() {
+		try {
+			bgmAis = AudioSystem.getAudioInputStream(file);
+			bgmClip = AudioSystem.getClip();
+			bgmClip.open(bgmAis);
+			bgmClip.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

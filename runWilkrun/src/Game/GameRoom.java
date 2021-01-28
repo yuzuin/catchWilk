@@ -34,6 +34,7 @@ public class GameRoom {
 	private void init() {
 		pp = new printPlayers(this);
 		gg = new gameGUI(this,pp);
+		pp.getGG(gg);
 	}
 	
 	private void gameGo() {
