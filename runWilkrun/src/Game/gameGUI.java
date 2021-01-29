@@ -2,8 +2,6 @@ package Game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -13,7 +11,6 @@ import java.awt.event.KeyListener;
 import java.io.File;
 
 import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,6 +21,7 @@ import javax.swing.JTextField;
 
 import DTO.p1DTO;
 import DTO.p2DTO;
+import list.timeRank;
 
 public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	
@@ -114,13 +112,13 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	
 	private void inGame() {
 		// 3,2,1 세는 부분은 리페인트가 필요하니 printPlayers 에서 하는 것으로... 게임 먼저 하자..
-		itemStart = true;
 		this.remove(startPanel);
 		this.add(pp,"Center");
 		pp.requestFocus();	// 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
 		pp.addKeyListener(new Key(gr,this,pp));  // pp가 이벤트를 받아야하므로. 중요!!!
 		pp.ingameBGM();
 		this.setVisible(true);
+		itemStart = true;
 	}
 	
 	public void paint(Graphics g) {

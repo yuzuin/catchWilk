@@ -288,6 +288,9 @@ public class printPlayers extends Canvas{
 		game.setRunning(time);
 		db.insert(game);
 		
+		gg.itemStart=false;
+		System.out.println(gg.itemStart);
+		
 		po = new printOver(gr);	//	겜후 화면 출력
 		gg.AfterGame(po);
 	}
