@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.io.File;
 
 import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -47,6 +48,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	boolean itemStart = false;
 	
 	//	sound
+	private File startSnd = new File("./src/sound/startSound.wav");
 	AudioInputStream ais;
 	Clip clip;
 	
@@ -56,6 +58,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		this.gr=gr;
 		addLis();
 		setFrame();
+		startBGM();
 		startFrame(); //	첫 시작 화면
 //		this.requestFocus();
 //		this.addKeyListener(new Key(gr,this)); // 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
@@ -117,6 +120,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		pp.requestFocus();	// 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
 		pp.addKeyListener(new Key(gr,this,pp));  // pp가 이벤트를 받아야하므로. 중요!!!
 		pp.ingameBGM();
+		clip.stop();
 		this.setVisible(true);
 		itemStart = true;
 	}
@@ -187,5 +191,16 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		this.add(po,"Center");
 		this.setVisible(true);
 		System.out.println("피오추가");
+	}
+	
+	public void startBGM() {
+		try {
+			ais = AudioSystem.getAudioInputStream(startSnd);
+			clip = AudioSystem.getClip();
+			clip.open(ais);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

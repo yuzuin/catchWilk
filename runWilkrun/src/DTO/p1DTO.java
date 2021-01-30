@@ -10,6 +10,10 @@ public class p1DTO {
 	private float time = -1;
 	private String enemy=null;
 	
+	private int num=-1;
+	private int winCnt = 0; //	이긴횟수
+	private int loseCnt = 0; //	진횟수
+	
 	public p1DTO(){
 		//	1초마다 체력이 떨어짐 구현
 		new Thread(new Runnable() {
@@ -27,6 +31,56 @@ public class p1DTO {
 		}).start();
 	}
 	
+	
+	
+	public int getNum() {
+		return num;
+	}
+
+
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+
+
+	public int getWinCnt() {
+		return winCnt;
+	}
+
+
+
+	public void setWinCnt(int winCnt) {
+		this.winCnt = winCnt;
+	}
+
+
+
+	public int getLoseCnt() {
+		return loseCnt;
+	}
+
+
+
+	public void setLoseCnt(int loseCnt) {
+		this.loseCnt = loseCnt;
+	}
+
+
+
+	public void setMove(int move) {
+		this.move = move;
+	}
+
+
+
+	public void setPower(int power) {
+		this.power = power;
+	}
+
+
+
 	/* 속도 , 체력 */
 	public int getPower() {
 		return power;
