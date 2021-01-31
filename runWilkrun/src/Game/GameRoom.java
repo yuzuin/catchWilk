@@ -40,7 +40,7 @@ public class GameRoom {
 	private void gameGo() {
 		//	템
 		while(true) {
-			System.out.println(gg.itemStart);
+			System.out.print(gg.itemStart);
 			start = gg.itemStart;
 			try {
 				if(start) {	//	게임 시작도 전에 아이템 생성 방지

@@ -17,12 +17,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import DTO.p1DTO;
 import DTO.p2DTO;
-import list.timeRank;
 
 public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	
@@ -56,7 +56,6 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	gameGUI(GameRoom gr,printPlayers pp){
 		this.pp=pp;
 		this.gr=gr;
-		addLis();
 		setFrame();
 		startBGM();
 		startFrame(); //	첫 시작 화면
@@ -67,12 +66,11 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 
 	private void setFrame() {
 		this.setBounds(270,10,800,700);
-		
+		this.addLis();
 		this.setUndecorated(true);
 		this.getContentPane().setLayout(new java.awt.BorderLayout(0,0));
 		this.setVisible(true);
 		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-		
 	}
 	
 	public void startFrame() {
@@ -101,6 +99,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		input2P.setBounds(160, 108, 190, 30);
 		panel_1.add(input2P);
 		input2P.setColumns(20);
+		addLis();
 		
 		//	겜시작 버튼
 		startBtn.setBounds(365, 480, 80, 80);
@@ -144,6 +143,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 			gr.p1 = new p1DTO();
 			if(input1P.getText().equals("")) { 	//	텍스트필드에 아무것도 입력되어 있지 않으면 null이 아닌 ""
 				System.out.println("플레이어1의 이름을 입력하세요.");
+				JOptionPane.showMessageDialog(null, "플레이어1의 이름을 입력하세요.");
 			}else {
 				gr.p1.setName(input1P.getText());
 				p1_chk=true;
@@ -152,6 +152,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 			gr.p2 = new p2DTO();
 			if(input2P.getText().equals("")) {
 				System.out.println("플레이어1의 이름을 입력하세요.");
+				JOptionPane.showMessageDialog(null, "플레이어2의 이름을 입력하세요.");
 			}else {
 				gr.p2.setName(input2P.getText());
 				p2_chk=true;
@@ -159,7 +160,6 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 			
 			if(p1_chk&&p2_chk) {
 				System.out.println("게임 시~~작!");
-//				key = new Key(gr);
 				inGame(); //	겜시작
 			}
 		}
@@ -177,6 +177,10 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		if(e.getKeyCode()==27) {
 	    	  System.exit(0);
 	      }
+		//	엔터키 입력하면 시작
+		if(e.getKeyCode()==13) {
+			e.setSource(startBtn);
+		}
 	}
 
 	@Override

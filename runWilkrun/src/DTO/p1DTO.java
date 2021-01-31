@@ -13,6 +13,10 @@ public class p1DTO {
 	private int num=-1;
 	private int winCnt = 0; //	이긴횟수
 	private int loseCnt = 0; //	진횟수
+	private float minTime = -1;
+	
+	private int maxPower=30;
+	private int maxMove = 6;
 	
 	public p1DTO(){
 		//	1초마다 체력이 떨어짐 구현
@@ -22,6 +26,7 @@ public class p1DTO {
 				while(true) {
 					try {
 						Thread.sleep(1000);
+						max();
 						running();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -32,7 +37,18 @@ public class p1DTO {
 	}
 	
 	
-	
+	public float getMinTime() {
+		return minTime;
+	}
+
+
+
+	public void setMinTime(float minTime) {
+		this.minTime = minTime;
+	}
+
+
+
 	public int getNum() {
 		return num;
 	}
@@ -108,6 +124,30 @@ public class p1DTO {
 		}
 	}
 	
+	/* 맥스파워, 맥스스피드 메서드 */
+	public void max() {
+		if(maxPower<power) {
+			maxPower=power;
+		}
+		if(maxMove<move) {
+			maxMove=move;
+		}
+	}
+	public int getMaxPower() {
+		return maxPower;
+	}
+
+	public void setMaxPower(int maxPower) {
+		this.maxPower = maxPower;
+	}
+
+	public int getMaxMove() {
+		return maxMove;
+	}
+
+	public void setMaxMove(int maxMove) {
+		this.maxMove = maxMove;
+	}
 	public void running() {
 		power=power-1;
 	}

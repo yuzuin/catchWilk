@@ -10,6 +10,15 @@ public class p2DTO {
 	private float time = -1;
 	private String enemy=null;
 	
+	
+	private int num=-1;
+	private int winCnt = 0; //	이긴횟수
+	private int loseCnt = 0; //	진횟수
+	private float minTime = -1;
+	
+	private int maxPower=30;
+	private int maxMove = 6;
+	
 	public p2DTO(){
 		//	1초마다 체력이 떨어짐 구현
 		new Thread(new Runnable() {
@@ -18,6 +27,7 @@ public class p2DTO {
 				while(true) {
 					try {
 						Thread.sleep(1000);
+						max();
 						running();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -26,6 +36,55 @@ public class p2DTO {
 			}
 		}).start();
 	}
+	
+	public float getMinTime() {
+		return minTime;
+	}
+
+
+
+	public void setMinTime(float minTime) {
+		this.minTime = minTime;
+	}
+
+
+
+	public int getNum() {
+		return num;
+	}
+
+
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+
+
+	public int getWinCnt() {
+		return winCnt;
+	}
+
+
+
+	public void setWinCnt(int winCnt) {
+		this.winCnt = winCnt;
+	}
+
+
+
+	public int getLoseCnt() {
+		return loseCnt;
+	}
+
+
+
+	public void setLoseCnt(int loseCnt) {
+		this.loseCnt = loseCnt;
+	}
+
+
+
 	
 	/* 속도 , 체력 */
 	public int getPower() {
@@ -55,6 +114,35 @@ public class p2DTO {
 		move=move-3;
 		}
 	}
+	
+	/* 맥스파워, 맥스스피드 메서드 */
+	public void max() {
+		if(maxPower<power) {
+			maxPower=power;
+		}
+		if(maxMove<move) {
+			maxMove=move;
+		}
+	}
+	
+	
+	
+	public int getMaxPower() {
+		return maxPower;
+	}
+
+	public void setMaxPower(int maxPower) {
+		this.maxPower = maxPower;
+	}
+
+	public int getMaxMove() {
+		return maxMove;
+	}
+
+	public void setMaxMove(int maxMove) {
+		this.maxMove = maxMove;
+	}
+
 	public void running() {
 		power=power-1;
 	}
