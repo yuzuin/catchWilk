@@ -46,6 +46,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	private printPlayers pp = null; // 게임 캔버스
 	private GameRoom gr = null;
 	private File file = new File("./src/sound/ingameBGM.wav");
+	private count c = null;
 	
 	//조건
 	boolean itemStart = false;
@@ -117,9 +118,9 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		startPanel.add(startBtn);
 	}
 	
-	private void inGame() {
+	public void inGame() {
 		// 3,2,1 세는 부분은 리페인트가 필요하니 printPlayers 에서 하는 것으로... 게임 먼저 하자..
-		this.remove(startPanel);
+		this.remove(c);
 		itemStart = true;
 		this.add(pp,"Center");
 		pp.requestFocus();	// 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
@@ -184,14 +185,15 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	/*랭킹화면 */
 	public void showRank(printOver po,Ranking rk) {
 		this.remove(po);
-//		after.setBounds(0,0,800,700);
-//		search.setBounds(600, 600, 10, 20);
-//		after.add(search);
-//		searchBtn.setBounds(630, 600, 10, 5);
-//		after.add(searchBtn);
-//		after.add(rk);
-//		after.setVisible(true);
 		this.add(rk);
+		this.setVisible(true);
+	}
+	
+	/*카운트화면*/
+	public void showCnt() {
+		this.remove(startPanel);
+		c = new count(this);
+		this.add(c,"Center");
 		this.setVisible(true);
 	}
 	private void startBGM() {
@@ -208,34 +210,35 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	}
 	
 	private void clickBtn() {
-		// 닉네임을 받아서 1p, 2p 객체로 넘겨주기
-					boolean p1_chk = false; // 이름이 입력되었는지 체크 
-					boolean p2_chk = false;
-					
-					gr.p1 = new p1DTO();
-					if(input1P.getText().equals("")) { 	//	텍스트필드에 아무것도 입력되어 있지 않으면 null이 아닌 ""
-						System.out.println("플레이어1의 이름을 입력하세요.");
-						JOptionPane.showMessageDialog(null, "플레이어1의 이름을 입력하세요.");
-					}else {
-						gr.p1.setName(input1P.getText());
-						p1_chk=true;
-					}
-					
-					gr.p2 = new p2DTO();
-					if(input2P.getText().equals("")) {
-						System.out.println("플레이어1의 이름을 입력하세요.");
-						JOptionPane.showMessageDialog(null, "플레이어2의 이름을 입력하세요.");
-					}else {
-						gr.p2.setName(input2P.getText());
-						p2_chk=true;
-					}
-					
-					if(p1_chk&&p2_chk) {
-						if(gameOn==false) {
-							System.out.println("게임 시~~작!");
-							gameOn=true;
-							inGame(); //	겜시작
-						}
-					}
+	// 닉네임을 받아서 1p, 2p 객체로 넘겨주기
+		boolean p1_chk = false; // 이름이 입력되었는지 체크 
+		boolean p2_chk = false;
+		
+		gr.p1 = new p1DTO();
+		if(input1P.getText().equals("")) { 	//	텍스트필드에 아무것도 입력되어 있지 않으면 null이 아닌 ""
+			System.out.println("플레이어1의 이름을 입력하세요.");
+			JOptionPane.showMessageDialog(null, "플레이어1의 이름을 입력하세요.");
+		}else {
+			gr.p1.setName(input1P.getText());
+			p1_chk=true;
+		}
+		
+		gr.p2 = new p2DTO();
+		if(input2P.getText().equals("")) {
+			System.out.println("플레이어1의 이름을 입력하세요.");
+			JOptionPane.showMessageDialog(null, "플레이어2의 이름을 입력하세요.");
+		}else {
+			gr.p2.setName(input2P.getText());
+			p2_chk=true;
+		}
+		
+		if(p1_chk&&p2_chk) {
+			if(gameOn==false) {
+				System.out.println("게임 시~~작!");
+				gameOn=true;
+				showCnt();
+//				inGame(); //	겜시작
+			}
+		}
 	}
 }

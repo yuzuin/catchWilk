@@ -64,6 +64,11 @@ public class printPlayers extends Canvas{
 	// 이미지
 	private Graphics buffg; // 더블버퍼링
 	private Image bimg = null;
+	
+//	private Image three = new ImageIcon(this.getClass().getResource("../img/3.png")).getImage();
+//	private Image two = new ImageIcon(this.getClass().getResource("../img/2.png")).getImage();
+//	private Image one = new ImageIcon(this.getClass().getResource("../img/1.png")).getImage();
+//	private Image GO = new ImageIcon(this.getClass().getResource("../img/GO.png")).getImage();
 	private Image back = new ImageIcon(this.getClass().getResource("../img/background.png")).getImage();
 	private Image breadImg = new ImageIcon(this.getClass().getResource("../img/bread_30x30.png")).getImage();
 	private Image wilkImg = new ImageIcon(this.getClass().getResource("../img/wilk_30x30.png")).getImage();
