@@ -2,8 +2,11 @@ package Game;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +39,13 @@ public class printPlayers extends Canvas{
 	public DAO db = null; //	다오
 	private Ranking rk = null;
 	
+	//	폰트
+	private String temp;
+	private Font timeFont = new Font("Dotum",Font.PLAIN,25);
+	private int FontWidth;
+	private FontMetrics metrics = null;
+	private Font nameFont = new Font("Gulim",Font.PLAIN,12);
+	private Font speedFont = new Font("Dotum",Font.PLAIN,18);
 	//시간
 	private float time = 0;
 	private String prtTime;
@@ -62,7 +72,12 @@ public class printPlayers extends Canvas{
 	private Image powerupImg = new ImageIcon(this.getClass().getResource("../img/powerup_70x70.png")).getImage();
 	private Image powerdownImg = new ImageIcon(this.getClass().getResource("../img/powerdown_70x70.png")).getImage();
 	private Image gameoverImg = new ImageIcon(this.getClass().getResource("../img/gameover.png")).getImage();
-	
+	private Image breadPower = new ImageIcon(this.getClass().getResource("../img/BreadPower.png")).getImage();
+	private Image wilkPower = new ImageIcon(this.getClass().getResource("../img/WilkPower.png")).getImage();
+	private Image powerImg = new ImageIcon(this.getClass().getResource("../img/power.png")).getImage();
+	private BufferedImage newBread = null;
+	private BufferedImage newWilk = null;
+	private Image resizePower = null;
 	//	bgm
 	private boolean bgm = true;
 	private File eat = new File("./src/sound/eat.wav");
@@ -72,7 +87,6 @@ public class printPlayers extends Canvas{
 	private Clip bgmClip;
 	
 	printPlayers(GameRoom gr){
-//		System.out.println(this.getClass().getResource("../img/bread_30x30.png"));
 		this.gr=gr;
 		this.setBackground(Color.white);
 		this.game = new gameDTO();
@@ -108,7 +122,11 @@ public class printPlayers extends Canvas{
 			buffg.drawImage(breadImg, bread.getX(), bread.getY(),null);
 			buffg.drawImage(wilkImg, wilk.getX(), wilk.getY(),null);
 			if(prtTime!=null) {
-				buffg.drawString(prtTime, 600, 75);
+				buffg.setFont(timeFont);
+				buffg.setColor(Color.black);
+				metrics = g.getFontMetrics(timeFont);
+				FontWidth = metrics.stringWidth(prtTime);
+				buffg.drawString(prtTime, 800/2-FontWidth/2, 75);
 			}
 			if(iList!=null) {
 				printItems();
@@ -217,7 +235,7 @@ public class printPlayers extends Canvas{
 			}
 		}
 	}
-	
+
 	//	4개의 모서리로 다 먹을 수 있게..
 	public boolean eat(int px,int ix,int py,int iy,int iWidth,int iHeight) {
 		if((px<=ix+iWidth&&px>=ix)&&(py<=iy+iHeight&&py>=iy)) {
@@ -235,11 +253,30 @@ public class printPlayers extends Canvas{
 	
 	//	파워, 스피드 출력
 	public void printPower() {
-		String info1 = "1P\n"+gr.p1.getPower()+" 파워!\n"+gr.p1.getSpeed()+" 스피드!";
-		buffg.drawString(info1, 20, 580);
-		
-		String info2 = "2P\n"+gr.p2.getPower()+" 파워!\n"+gr.p2.getSpeed()+" 스피드!";
-		buffg.drawString(info2, 680, 580);
+		buffg.drawImage(powerImg, 140, 600, null);
+		buffg.setFont(nameFont);
+		buffg.setColor(Color.red);
+		buffg.drawString("브레드", 95, 635);
+		buffg.setColor(Color.blue);
+		buffg.drawString("윌크", 95, 665);
+		if(bread.getPower()>0) {
+			resizePower = breadPower.getScaledInstance(14*bread.getPower(), 15, Image.SCALE_SMOOTH);
+			newBread = new BufferedImage(14*bread.getPower(), 15,BufferedImage.TYPE_INT_RGB);
+			buffg.drawImage(newBread, 135,625,null);
+			buffg.setFont(speedFont);
+			buffg.setColor(Color.red);
+			temp = "브레드 SPEED "+bread.getMove();
+			buffg.drawString(temp, 55, 565);
+		}
+		if(wilk.getPower()>0) {
+			resizePower = wilkPower.getScaledInstance(8*wilk.getPower(), 15, Image.SCALE_SMOOTH);
+			newWilk = new BufferedImage(8*wilk.getPower(), 15,BufferedImage.TYPE_INT_RGB);
+			buffg.drawImage(newWilk, 135,655,null);
+			buffg.setFont(speedFont);
+			buffg.setColor(Color.red);
+			temp = "윌크 SPEED "+wilk.getMove();
+			buffg.drawString(temp, 630, 565);
+		}
 	}
 	
 	//	승패
