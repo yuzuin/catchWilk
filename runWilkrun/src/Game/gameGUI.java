@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import DTO.p1DTO;
 import DTO.p2DTO;
+import list.Ranking;
 
 public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	
@@ -31,21 +32,22 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	private File startIcon = new File("./src/img/startBtn.png");
 	
 	//라벨, 텍스트필드, 콘테이너
-	private JTextField input1P = new JTextField(); ;
+	private JTextField input1P = new JTextField(); 
 	private JTextField input2P = new JTextField();
 	private JButton startBtn = new JButton(new ImageIcon(startIcon.getAbsolutePath()));
 	private JPanel startPanel = new JPanel();
-	private JLabel scondLabel = new JLabel(); //초세기
+	public JPanel after = new JPanel();
 	
 	//객체
 	
 	private printPlayers pp = null; // 게임 캔버스
 	private GameRoom gr = null;
-	private Key key = null;
 	private File file = new File("./src/sound/ingameBGM.wav");
 	
 	//조건
 	boolean itemStart = false;
+	boolean btn = false;
+	boolean gameOn = false;
 	
 	//	sound
 	private File startSnd = new File("./src/sound/startSound.wav");
@@ -115,13 +117,13 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	private void inGame() {
 		// 3,2,1 세는 부분은 리페인트가 필요하니 printPlayers 에서 하는 것으로... 게임 먼저 하자..
 		this.remove(startPanel);
+		itemStart = true;
 		this.add(pp,"Center");
 		pp.requestFocus();	// 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
 		pp.addKeyListener(new Key(gr,this,pp));  // pp가 이벤트를 받아야하므로. 중요!!!
 		pp.ingameBGM();
 		clip.stop();
 		this.setVisible(true);
-		itemStart = true;
 	}
 	
 	public void paint(Graphics g) {
@@ -131,43 +133,23 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	public void addLis() {
 		startBtn.addActionListener(this);
 		this.addKeyListener(this);
+		input1P.addKeyListener(this);
+		input2P.addKeyListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(startBtn)) {
-			// 닉네임을 받아서 1p, 2p 객체로 넘겨주기
-			boolean p1_chk = false; // 이름이 입력되었는지 체크 
-			boolean p2_chk = false;
-			
-			gr.p1 = new p1DTO();
-			if(input1P.getText().equals("")) { 	//	텍스트필드에 아무것도 입력되어 있지 않으면 null이 아닌 ""
-				System.out.println("플레이어1의 이름을 입력하세요.");
-				JOptionPane.showMessageDialog(null, "플레이어1의 이름을 입력하세요.");
-			}else {
-				gr.p1.setName(input1P.getText());
-				p1_chk=true;
-			}
-			
-			gr.p2 = new p2DTO();
-			if(input2P.getText().equals("")) {
-				System.out.println("플레이어1의 이름을 입력하세요.");
-				JOptionPane.showMessageDialog(null, "플레이어2의 이름을 입력하세요.");
-			}else {
-				gr.p2.setName(input2P.getText());
-				p2_chk=true;
-			}
-			
-			if(p1_chk&&p2_chk) {
-				System.out.println("게임 시~~작!");
-				inGame(); //	겜시작
-			}
+			clickBtn();
 		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
+		if(e.getKeyChar()=='w') {
+			System.out.println("ㅋㅋㅋㅆㅣㅏㅂㄹ");
+		}
 		
 	}
 
@@ -176,10 +158,10 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		// 	ESC 누를 시 종료
 		if(e.getKeyCode()==27) {
 	    	  System.exit(0);
-	      }
-		//	엔터키 입력하면 시작
-		if(e.getKeyCode()==13) {
-			e.setSource(startBtn);
+	      }else if(e.getKeyCode()==13) { //	엔터키 겜종료
+	    	  clickBtn();
+		}else if(e.getKeyCode()==10) {
+			clickBtn();
 		}
 	}
 
@@ -191,20 +173,57 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	
 	public void AfterGame(printOver po) {
 		this.remove(pp);
-		System.out.println("피피치움");
 		this.add(po,"Center");
 		this.setVisible(true);
-		System.out.println("피오추가");
 	}
 	
-	public void startBGM() {
+	public void showRank(printOver po,Ranking rk) {
+		this.remove(po);
+		this.add(rk);
+		this.setVisible(true);
+	}
+	private void startBGM() {
 		try {
-			ais = AudioSystem.getAudioInputStream(startSnd);
-			clip = AudioSystem.getClip();
-			clip.open(ais);
-			clip.start();
+			if(ais==null) {
+				ais = AudioSystem.getAudioInputStream(startSnd);
+				clip = AudioSystem.getClip();
+				clip.open(ais);
+				clip.start();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void clickBtn() {
+		// 닉네임을 받아서 1p, 2p 객체로 넘겨주기
+					boolean p1_chk = false; // 이름이 입력되었는지 체크 
+					boolean p2_chk = false;
+					
+					gr.p1 = new p1DTO();
+					if(input1P.getText().equals("")) { 	//	텍스트필드에 아무것도 입력되어 있지 않으면 null이 아닌 ""
+						System.out.println("플레이어1의 이름을 입력하세요.");
+						JOptionPane.showMessageDialog(null, "플레이어1의 이름을 입력하세요.");
+					}else {
+						gr.p1.setName(input1P.getText());
+						p1_chk=true;
+					}
+					
+					gr.p2 = new p2DTO();
+					if(input2P.getText().equals("")) {
+						System.out.println("플레이어1의 이름을 입력하세요.");
+						JOptionPane.showMessageDialog(null, "플레이어2의 이름을 입력하세요.");
+					}else {
+						gr.p2.setName(input2P.getText());
+						p2_chk=true;
+					}
+					
+					if(p1_chk&&p2_chk) {
+						if(gameOn==false) {
+							System.out.println("게임 시~~작!");
+							gameOn=true;
+							inGame(); //	겜시작
+						}
+					}
 	}
 }

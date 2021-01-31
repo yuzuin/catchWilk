@@ -6,6 +6,7 @@ import java.util.Random;
 import DTO.itemDTO;
 import DTO.p1DTO;
 import DTO.p2DTO;
+import list.Ranking;
 
 public class GameRoom {
 	

@@ -20,6 +20,8 @@ import DTO.itemDTO;
 import DTO.p1DTO;
 import DTO.p2DTO;
 import jdbc.DAO;
+import list.Key2;
+import list.Ranking;
 
 public class printPlayers extends Canvas{
 	
@@ -30,7 +32,9 @@ public class printPlayers extends Canvas{
 	private boolean gaming = true;
 	private gameDTO game = null; 	//	겜정보
 	private gameGUI gg = null;
-	private printOver po = null;
+	public printOver po = null;
+	private DAO db = null; //	다오
+	private Ranking rk = null;
 	
 	//시간
 	private float time = 0;
@@ -103,7 +107,9 @@ public class printPlayers extends Canvas{
 			init();
 			buffg.drawImage(breadImg, bread.getX(), bread.getY(),null);
 			buffg.drawImage(wilkImg, wilk.getX(), wilk.getY(),null);
-			buffg.drawString(prtTime, 600, 75);
+			if(prtTime!=null) {
+				buffg.drawString(prtTime, 600, 75);
+			}
 			if(iList!=null) {
 				printItems();
 			}
@@ -276,7 +282,7 @@ public class printPlayers extends Canvas{
 		bread.setEnemy(wilk.getName());
 		wilk.setTime(time);
 		wilk.setEnemy(bread.getName());
-		DAO db = new DAO();
+		db = new DAO();
 		//	db 테이블에 (player1, player2) insert
 		db.insert(bread);
 		db.insert(wilk);
@@ -291,9 +297,12 @@ public class printPlayers extends Canvas{
 		gg.itemStart=false;
 		System.out.println(gg.itemStart);
 		
-		po = new printOver(gr);	//	겜후 화면 출력
-		
+		po = new printOver(gr,this);	//	겜후 화면 출력
+		po.getGG(gg);
 		gg.AfterGame(po);
+		rk = new Ranking(db); /*임시*/
+		po.addKeyListener(new Key2(rk,po,gg));
+		po.requestFocus();
 	}
 	
 	/* 게임 플레이한 시간 셋*/
@@ -333,10 +342,12 @@ public class printPlayers extends Canvas{
 	
 	public void ingameBGM() {
 		try {
-			bgmAis = AudioSystem.getAudioInputStream(file);
-			bgmClip = AudioSystem.getClip();
-			bgmClip.open(bgmAis);
-			bgmClip.start();
+			if(bgmAis==null) {
+				bgmAis = AudioSystem.getAudioInputStream(file);
+				bgmClip = AudioSystem.getClip();
+				bgmClip.open(bgmAis);
+				bgmClip.start();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
