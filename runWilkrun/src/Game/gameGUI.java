@@ -36,7 +36,10 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	private JTextField input2P = new JTextField();
 	private JButton startBtn = new JButton(new ImageIcon(startIcon.getAbsolutePath()));
 	private JPanel startPanel = new JPanel();
+	
 	public JPanel after = new JPanel();
+	private JTextField search = new JTextField();
+	private JButton searchBtn = new JButton("검색");
 	
 	//객체
 	
@@ -171,14 +174,23 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		
 	}
 	
+	/*게임오버화면*/
 	public void AfterGame(printOver po) {
 		this.remove(pp);
 		this.add(po,"Center");
 		this.setVisible(true);
 	}
 	
+	/*랭킹화면 */
 	public void showRank(printOver po,Ranking rk) {
 		this.remove(po);
+//		after.setBounds(0,0,800,700);
+//		search.setBounds(600, 600, 10, 20);
+//		after.add(search);
+//		searchBtn.setBounds(630, 600, 10, 5);
+//		after.add(searchBtn);
+//		after.add(rk);
+//		after.setVisible(true);
 		this.add(rk);
 		this.setVisible(true);
 	}

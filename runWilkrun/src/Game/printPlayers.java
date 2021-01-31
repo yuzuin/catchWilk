@@ -33,7 +33,7 @@ public class printPlayers extends Canvas{
 	private gameDTO game = null; 	//	겜정보
 	private gameGUI gg = null;
 	public printOver po = null;
-	private DAO db = null; //	다오
+	public DAO db = null; //	다오
 	private Ranking rk = null;
 	
 	//시간
@@ -300,7 +300,7 @@ public class printPlayers extends Canvas{
 		po = new printOver(gr,this);	//	겜후 화면 출력
 		po.getGG(gg);
 		gg.AfterGame(po);
-		rk = new Ranking(db); /*임시*/
+		rk = new Ranking(this); /*임시*/
 		po.addKeyListener(new Key2(rk,po,gg));
 		po.requestFocus();
 	}
@@ -351,5 +351,9 @@ public class printPlayers extends Canvas{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public p1DTO getB() {
+		return bread;
 	}
 }
