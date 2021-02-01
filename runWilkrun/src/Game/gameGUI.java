@@ -28,6 +28,7 @@ import list.Ranking;
 public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	
 	//	이미지
+	private Image howto = new ImageIcon(this.getClass().getResource("../img/howto.png")).getImage();
 	private Image background = new ImageIcon(this.getClass().getResource("../img/start.png")).getImage();
 	private File startIcon = new File("./src/img/startBtn.png");
 	
@@ -47,6 +48,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	private GameRoom gr = null;
 	private File file = new File("./src/sound/ingameBGM.wav");
 	private count c = null;
+	private rule r = null;
 	
 	//조건
 	boolean itemStart = false;
@@ -126,7 +128,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		pp.requestFocus();	// 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
 		pp.addKeyListener(new Key(gr,this,pp));  // pp가 이벤트를 받아야하므로. 중요!!!
 		pp.ingameBGM();
-		clip.stop();
+//		clip.stop();
 		this.setVisible(true);
 	}
 	
@@ -151,10 +153,6 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getKeyChar()=='w') {
-			System.out.println("ㅋㅋㅋㅆㅣㅏㅂㄹ");
-		}
-		
 	}
 
 	@Override
@@ -191,7 +189,8 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	
 	/*카운트화면*/
 	public void showCnt() {
-		this.remove(startPanel);
+		clip.stop();
+		this.remove(r);
 		c = new count(this);
 		this.add(c,"Center");
 		this.setVisible(true);
@@ -207,6 +206,14 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/*게임룰화면*/
+	private void showRule() {
+		this.remove(startPanel);
+		r = new rule(this);
+		this.add(r);
+		this.setVisible(true);
 	}
 	
 	private void clickBtn() {
@@ -236,7 +243,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 			if(gameOn==false) {
 				System.out.println("게임 시~~작!");
 				gameOn=true;
-				showCnt();
+				showRule();
 //				inGame(); //	겜시작
 			}
 		}

@@ -1,6 +1,7 @@
 package DTO;
 
 public class p1DTO {
+	private boolean flag = false;
 	private String name = null;
 	private int x = 400;
 	private int y = 350;
@@ -27,7 +28,9 @@ public class p1DTO {
 					try {
 						Thread.sleep(1000);
 						max();
-						running();
+						if(isFlag()) {
+							running();
+						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -224,6 +227,16 @@ public class p1DTO {
 
 	public int getMove() {
 		return move;
+	}
+
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+
+	public void setFlag() {
+		this.flag = true;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package DTO;
 
 public class p2DTO {
+	private boolean flag = false;
 	private String name = null;
 	private int x = 380;
 	private int y = 340;
@@ -28,7 +29,9 @@ public class p2DTO {
 					try {
 						Thread.sleep(1000);
 						max();
-						running();
+						if(isFlag()) {
+							running();
+						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -220,5 +223,13 @@ public class p2DTO {
 
 	public int getMove() {
 		return move;
+	}
+	public boolean isFlag() {
+		return flag;
+	}
+
+
+	public void setFlag() {
+		this.flag = true;
 	}
 }

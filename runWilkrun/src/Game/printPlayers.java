@@ -155,6 +155,8 @@ public class printPlayers extends Canvas{
 		}
 	}
 	public void init() { 
+		gr.p1.setFlag();
+		gr.p2.setFlag();
 		this.bread = gr.p1;
 		this.wilk = gr.p2;
 		this.iList=gr.itemList;

@@ -3,7 +3,11 @@ package Game;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 
 public class count extends Canvas{
@@ -19,13 +23,15 @@ public class count extends Canvas{
 	private Image one = new ImageIcon(this.getClass().getResource("../img/1.png")).getImage();
 	private Image GO = new ImageIcon(this.getClass().getResource("../img/GO.png")).getImage();
 	
+	private File countSnd = new File("./src/sound/cntSound.wav");
+	AudioInputStream ais=null;;
+	Clip clip;
 	
 	count(gameGUI gg){
 		this.gg=gg;
 		System.out.println("카운트1");
 		
 		new Thread(new Runnable() {
-			
 			@Override
 			public void run() {
 				for(;;) {
@@ -39,7 +45,6 @@ public class count extends Canvas{
 				}
 			}
 		}).start();
-		
 	}
 	
 	public void update(Graphics g) {
@@ -48,22 +53,24 @@ public class count extends Canvas{
 				System.out.println("카운트2");
 				buffg.drawImage(three, 0, 0, null);
 				g.drawImage(bimg, 0,0,this);
-				Thread.sleep(700);
+				Thread.sleep(720);
 				buffg.clearRect(0, 0, 800, 700);
 				buffg.drawImage(two, 0, 0, null);
 				g.drawImage(bimg, 0,0,this);
-				Thread.sleep(700);
+				Thread.sleep(720);
 				buffg.clearRect(0, 0, 800, 700);
 				buffg.drawImage(one, 0, 0, null);
 				g.drawImage(bimg, 0,0,this);
-				Thread.sleep(700);
+				Thread.sleep(720);
 				buffg.clearRect(0, 0, 800, 700);
 				buffg.drawImage(GO, 0, 0, null);
 				g.drawImage(bimg, 0,0,this);
+				if(ais==null) {
+					sound();
+				}
 				go=false;
 				System.out.println(go);
-				Thread.sleep(700);
-				buffg.clearRect(0, 0, 800, 700);
+				Thread.sleep(720);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -110,6 +117,19 @@ public class count extends Canvas{
 		try {
 			Thread.sleep(700);
 		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void sound() {
+		try {
+			if(ais==null) {
+				ais = AudioSystem.getAudioInputStream(countSnd);
+				clip = AudioSystem.getClip();
+				clip.open(ais);
+				clip.start();
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
