@@ -26,8 +26,10 @@ public class Key2 extends Thread implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode()==13) {
+			gg.enterSound();
 			gg.showRank(po, rk);
 		}else if(e.getKeyCode()==10) {
+			gg.enterSound();
 			gg.showRank(po, rk);
 		}else if(e.getKeyCode()==27) {
 			System.exit(0);

@@ -1,15 +1,10 @@
 package Game;
 
-import java.awt.Button;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 
 import javax.sound.sampled.AudioInputStream;
@@ -19,7 +14,6 @@ import javax.swing.ImageIcon;
 
 import DTO.p1DTO;
 import DTO.p2DTO;
-import list.Ranking;
 
 /* 게임 오버 화면 클래스 */
 public class printOver extends Canvas {
@@ -39,8 +33,11 @@ public class printOver extends Canvas {
 	
 	//	bgm
 	private File winSound = new File("./src/sound/winSound.wav");
+	private File rankSound = new File("./src/sound/rankingSound.wav");
 	private AudioInputStream winAis;
 	private Clip winClip;
+	private AudioInputStream rankAis;
+	private Clip rankClip;
 	
 	// 폰트
 	private Font font1 = new Font("Dotum",Font.PLAIN,18);
@@ -74,6 +71,7 @@ public class printOver extends Canvas {
 		buffg.drawString(time, 310, 675);
 		setInfo();
 		g.drawImage(bimg,0,0,this);
+		rankSound();
 	}
 	
 	//	더블버퍼링
@@ -96,6 +94,17 @@ public class printOver extends Canvas {
 			winClip = AudioSystem.getClip();
 			winClip.open(winAis);
 			winClip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void rankSound() {
+		try {
+			rankAis = AudioSystem.getAudioInputStream(rankSound);
+			rankClip = AudioSystem.getClip();
+			rankClip.open(rankAis);
+			rankClip.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -13,6 +13,7 @@ import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -61,7 +62,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	AudioInputStream ais;
 	Clip clip;
 	AudioInputStream aisE;
-	Clip clipE;
+	public Clip clipE;
 	
 	
 	gameGUI(GameRoom gr,printPlayers pp){
@@ -196,14 +197,12 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		this.add(c,"Center");
 		this.setVisible(true);
 	}
-	private void enterSound() {
+	public void enterSound() {
 		try {
-			if(aisE==null) {
-				aisE = AudioSystem.getAudioInputStream(enterSnd);
-				clipE = AudioSystem.getClip();
-				clipE.open(aisE);
-				clipE.start();
-			}
+			aisE = AudioSystem.getAudioInputStream(enterSnd);
+			clipE = AudioSystem.getClip();
+			clipE.open(aisE);
+			clipE.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -259,7 +258,6 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 				System.out.println("게임 시~~작!");
 				gameOn=true;
 				showRule();
-//				inGame(); //	겜시작
 			}
 		}
 	}

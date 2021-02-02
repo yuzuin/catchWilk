@@ -44,7 +44,6 @@ public class Key extends Thread implements KeyListener{
                    else if (n=='a') gr.p2.goLeft();
                    else if (n=='s') gr.p2.goDown();
                    else if (n=='d') gr.p2.goRight();
-//                   pp.repaint();
                 }
              }else {
             	 timer.stop();
@@ -55,8 +54,9 @@ public class Key extends Thread implements KeyListener{
 
    @Override
    /// -------------------------------------- 윌크 이동
+   
+   /* *** ㅁ,ㄴ,ㅇ,ㅈ 키는 사용자가 마이크로소프트 자판기의 "문자열마무리" 기능을 사용하는지에 따라 먹히지 않을 수 있음. */
    public void keyTyped(KeyEvent e) {
-      // TODO Auto-generated method stub
       if(e.getKeyChar()=='w'||e.getKeyChar()=='W'||e.getKeyChar()=='ㅈ') { // 방향키 위쪽을 누르면 이동
     	  int keyCode = 'w';
          pressedKeys.add(keyCode);
