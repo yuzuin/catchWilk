@@ -234,7 +234,8 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		boolean p1_chk = false; // 이름이 입력되었는지 체크 
 		boolean p2_chk = false;
 		
-		gr.p1 = new p1DTO();
+//		gr.p1 = new p1DTO();
+		gr.p1 = p1DTO.getInstance();	// 싱글톤
 		if(input1P.getText().equals("")) { 	//	텍스트필드에 아무것도 입력되어 있지 않으면 null이 아닌 ""
 			System.out.println("플레이어1의 이름을 입력하세요.");
 			JOptionPane.showMessageDialog(null, "플레이어1의 이름을 입력하세요.");

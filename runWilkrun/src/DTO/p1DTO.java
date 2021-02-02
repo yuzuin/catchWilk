@@ -1,6 +1,8 @@
 package DTO;
 
 public class p1DTO {
+	static p1DTO myself = null;
+	
 	private boolean flag = false;
 	private String name = null;
 	private int x = 400;
@@ -37,6 +39,15 @@ public class p1DTO {
 				}
 			}
 		}).start();
+	}
+	
+	/* 싱글톤 처리 
+	 * Multi Thread 환경에서 안전하게 싱글톤 처리하기 위한 LazyHolder*/
+	public static p1DTO getInstance() {
+		return LazyHolder.INSTANCE;
+	}
+	private static class LazyHolder{
+		private static final p1DTO INSTANCE = new p1DTO();
 	}
 	
 	
