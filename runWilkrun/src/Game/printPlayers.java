@@ -49,7 +49,6 @@ public class printPlayers extends Canvas{
 	//시간
 	private float time = 0;
 	private String prtTime;
-	private float timeTaken;
 	private Calendar cal;
 	
 	//	아이템
@@ -96,6 +95,10 @@ public class printPlayers extends Canvas{
 		this.gr=gr;
 		this.setBackground(Color.white);
 		this.game = new gameDTO();
+		
+	}
+	
+	public void gameRun() {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -103,10 +106,8 @@ public class printPlayers extends Canvas{
 				while(gaming) {
 					try {
 						Thread.sleep(30);
-						if(gr.start) {	//	시작하고 초 세기
-							time = (float)(time+0.03);
-							prtTime = String.valueOf((float)time);
-						}
+						time = (float)(time+0.03);
+						prtTime = String.valueOf((float)time);
 						repaint();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -144,7 +145,7 @@ public class printPlayers extends Canvas{
 			if(catchWilk()) {	//	게임이 끝나는 조건을 만족하는가?
 				gaming=false;	// repaint가 돌고 있는 while문을 끝냄
 				gameoverSound();
-				timeTaken = time;
+				gr.start=false;
 			}
 		}else {	//	게임이 끝났을 때
 			try {
@@ -338,9 +339,6 @@ public class printPlayers extends Canvas{
 		game.setP2(wilk.getName());
 		game.setRunning(time);
 		db.insert(game);
-		
-		gg.itemStart=false;
-		System.out.println(gg.itemStart);
 		
 		po = new printOver(gr,this);	//	겜후 화면 출력
 		po.getGG(gg);

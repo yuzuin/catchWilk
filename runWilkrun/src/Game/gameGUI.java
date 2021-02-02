@@ -52,9 +52,9 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	private rule r = null;
 	
 	//조건
-	boolean itemStart = false;
-	boolean btn = false;
-	boolean gameOn = false;
+	boolean ppStart=false;;
+	private boolean btn = false;
+	private boolean gameOn = false;
 	
 	//	sound
 	private File startSnd = new File("./src/sound/startSound.wav");
@@ -125,13 +125,14 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	public void inGame() {
 		// 3,2,1 세는 부분은 리페인트가 필요하니 printPlayers 에서 하는 것으로... 게임 먼저 하자..
 		this.remove(c);
-		itemStart = true;
 		this.add(pp,"Center");
 		pp.requestFocus();	// 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
 		pp.addKeyListener(new Key(gr,this,pp));  // pp가 이벤트를 받아야하므로. 중요!!!
 		pp.ingameBGM();
-//		clip.stop();
+		pp.gameRun();
 		this.setVisible(true);
+		ppStart=true;
+		gr.gameGo();
 	}
 	
 	public void paint(Graphics g) {

@@ -11,7 +11,7 @@ import list.Ranking;
 public class GameRoom {
 	
 	//	제어
-	boolean start=false;	//	pp에서도 씀
+	boolean start=true;	//	pp에서도 씀
 	
 	// 이 관계가 너무 어려워..ㅠㅠㅠ
 	private printPlayers pp = null;
@@ -29,7 +29,6 @@ public class GameRoom {
 	
 	GameRoom(){
 		init();
-		gameGo();
 	}
 	
 	private void init() {
@@ -38,21 +37,17 @@ public class GameRoom {
 		pp.getGG(gg);
 	}
 	
-	private void gameGo() {
+	public void gameGo() {
 		//	템
-		while(true) {
-			System.out.print(gg.itemStart);
-			start = gg.itemStart;
+		while(start) {
 			try {
-				if(start) {	//	게임 시작도 전에 아이템 생성 방지
-					Thread.sleep(2000);
-					int k = r.nextInt(items.length);
-					itemDTO item = new itemDTO();
-					item.setName(items[k]);
-					item.setX(r.nextInt(770));
-					item.setY(r.nextInt(650));
-					itemList.add(item);
-				}
+				Thread.sleep(2000);
+				int k = r.nextInt(items.length);
+				itemDTO item = new itemDTO();
+				item.setName(items[k]);
+				item.setX(r.nextInt(770));
+				item.setY(r.nextInt(650));
+				itemList.add(item);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
