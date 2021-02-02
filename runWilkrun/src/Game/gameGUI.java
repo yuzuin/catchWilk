@@ -164,8 +164,10 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		if(e.getKeyCode()==27) {
 	    	  System.exit(0);
 	      }else if(e.getKeyCode()==13) { //	엔터키 겜종료
+	    	  System.out.println("엔터눌림");
 	    	  clickBtn();
 		}else if(e.getKeyCode()==10) {
+			System.out.println("엔터눌림");
 			clickBtn();
 		}
 	}

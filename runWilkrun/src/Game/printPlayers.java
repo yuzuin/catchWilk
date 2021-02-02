@@ -23,7 +23,6 @@ import DTO.itemDTO;
 import DTO.p1DTO;
 import DTO.p2DTO;
 import jdbc.DAO;
-import list.Key2;
 import list.Ranking;
 
 public class printPlayers extends Canvas{
@@ -37,7 +36,6 @@ public class printPlayers extends Canvas{
 	private gameGUI gg = null;
 	public printOver po = null;
 	public DAO db = null; //	다오
-	private Ranking rk = null;
 	
 	//	폰트
 	private String temp;
@@ -343,9 +341,9 @@ public class printPlayers extends Canvas{
 		po = new printOver(gr,this);	//	겜후 화면 출력
 		po.getGG(gg);
 		gg.AfterGame(po);
-		rk = new Ranking(this); /*임시*/
-		po.addKeyListener(new Key2(rk,po,gg));
-		po.requestFocus();
+//		rk = new Ranking(this); /*임시*/
+//		po.addKeyListener(new Key2(rk,po,gg));
+//		po.requestFocus();
 	}
 	
 	/* 게임 플레이한 시간 셋*/

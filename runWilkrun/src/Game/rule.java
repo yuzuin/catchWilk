@@ -18,9 +18,6 @@ public class rule extends Canvas{
 	rule(gameGUI gg){
 		this.gg=gg;
 		this.addMouseListener(new MyMouseListener());
-		this.addKeyListener(new MyKeyListener());
-		this.setFocusable(true);
-		this.requestFocus();
 		repaint();
 	}
 	
@@ -28,11 +25,16 @@ public class rule extends Canvas{
 		
 	}
 	public void paint(Graphics g) {
+		//	...?? 페인트에 넣어줘야 동작함....
+		this.setFocusable(true);
+		this.requestFocus();
+		this.addKeyListener(new MyKeyListener(this));
 		g.clearRect(0, 0, 800, 700);
 		g.drawImage(howto,0,0,null);
 		update(g);
 	}
 	class MyMouseListener implements MouseListener{
+		
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -56,7 +58,11 @@ public class rule extends Canvas{
 		}
 	}
 	
-	class MyKeyListener implements KeyListener{
+	public class MyKeyListener implements KeyListener{
+		rule r = null;
+		MyKeyListener(rule r){
+			this.r=r;
+		}
 
 		@Override
 		public void keyTyped(KeyEvent e) {
@@ -68,8 +74,12 @@ public class rule extends Canvas{
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getKeyCode()==10) {
+				gg.enterSound();
+				System.out.println("rule 엔터 눌림");
 				gg.showCnt();
 			}else if(e.getKeyCode()==13) {
+				gg.enterSound();
+				System.out.println("rule 엔터 눌림");
 				gg.showCnt();
 			}else if(e.getKeyCode()==27) {
 				System.exit(0);

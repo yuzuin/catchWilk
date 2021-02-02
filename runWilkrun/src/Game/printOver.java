@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 
 import javax.sound.sampled.AudioInputStream;
@@ -14,10 +16,12 @@ import javax.swing.ImageIcon;
 
 import DTO.p1DTO;
 import DTO.p2DTO;
+import list.Ranking;
 
 /* 게임 오버 화면 클래스 */
 public class printOver extends Canvas {
 	
+	private Ranking rk = null;
 	private GameRoom gr = null;
 	private p1DTO bread = null;
 	private p2DTO wilk = null;
@@ -49,6 +53,7 @@ public class printOver extends Canvas {
 		bread = gr.p1;
 		wilk = gr.p2;
 		this.pp=pp;
+		this.rk = new Ranking(pp);
 		repaint();
 		System.out.println("리페인트완");
 	}
@@ -76,6 +81,9 @@ public class printOver extends Canvas {
 	
 	//	더블버퍼링
 	public void paint(Graphics g) {
+		this.setFocusable(true);
+		this.requestFocus();
+		this.addKeyListener(new MyKeyListener(this,rk));
 		if(buffg == null) {
 			bimg = createImage(800,700);
 			if(bimg == null) {
@@ -133,5 +141,37 @@ public class printOver extends Canvas {
 	public void getGG(gameGUI gg) {
 		this.gg=gg;
 	}
+	
+	
+	public class MyKeyListener implements KeyListener{
+		printOver po=null;
+		Ranking rk = null;
+		MyKeyListener(printOver po, Ranking rk){
+			this.rk = rk;
+			this.po=po;
+		}
 
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode()==13) {
+				gg.enterSound();
+				System.out.println("po의 엔터 눌림");
+				gg.showRank(po, rk);
+			}else if(e.getKeyCode()==10) {
+				gg.enterSound();
+				System.out.println("po의 엔터 눌림");
+				gg.showRank(po, rk);
+			}else if(e.getKeyCode()==27) {
+				System.exit(0);
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+		}
+	}
 }

@@ -98,6 +98,8 @@ public class Key extends Thread implements KeyListener{
          if(!timer.isRunning()) timer.start();
       }else if(e.getKeyCode()==27) {
     	  System.exit(0);
+      }else if(e.getKeyCode()==10||e.getKeyCode()==13){
+    	  System.out.println("Key의 엔터눌림");
       }
    }
 

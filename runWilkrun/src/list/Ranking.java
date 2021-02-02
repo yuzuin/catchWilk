@@ -5,12 +5,17 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import DTO.infoDTO;
 import DTO.p1DTO;
 import Game.printPlayers;
+import Game.rule;
+import Game.rule.MyKeyListener;
 import jdbc.DAO;
 
 /* 랭킹 보는 버튼 출력 화면 */
@@ -54,6 +59,9 @@ public class Ranking extends Canvas{
 	}
 //	더블버퍼링
 	public void paint(Graphics g) {
+		this.setFocusable(true);
+		this.requestFocus();
+		this.addKeyListener(new MyKeyListener(this));
 		if(buffg == null) {
 			bimg = createImage(800,700);
 			if(bimg == null) {
@@ -125,5 +133,34 @@ public class Ranking extends Canvas{
 			buffg.drawString(rank, 1090/2-width/2, 567);
 			buffg.drawString(rank2, 1090/2-width/2, 617);
 		}
+	}
+	
+	public class MyKeyListener implements KeyListener{
+		Ranking r = null;
+		MyKeyListener(Ranking r){
+			this.r=r;
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getKeyCode()==27) {
+				JOptionPane.showMessageDialog(null, "게임을 종료합니다.", "종료", JOptionPane.PLAIN_MESSAGE);
+				System.exit(0);
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }
