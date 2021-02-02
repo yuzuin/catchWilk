@@ -125,7 +125,7 @@ public class printOver extends Canvas {
 		String MaxMove = String.valueOf(bread.getMaxMove());
 		String MaxPower = String.valueOf(bread.getMaxPower());
 		
-		buffg.drawString(Name, 173, 490);
+		buffg.drawString(Name, 173, 494);
 		buffg.drawString(MaxMove, 190, 555);
 		buffg.drawString(MaxPower, 190, 615);
 		
@@ -133,7 +133,7 @@ public class printOver extends Canvas {
 		MaxMove = String.valueOf(wilk.getMaxMove());
 		MaxPower = String.valueOf(wilk.getMaxPower());
 		
-		buffg.drawString(Name, 550, 496);
+		buffg.drawString(Name, 550, 494);
 		buffg.drawString(MaxMove, 570, 556);
 		buffg.drawString(MaxPower,570, 616);
 	}

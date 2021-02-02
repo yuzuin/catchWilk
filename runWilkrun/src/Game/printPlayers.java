@@ -43,7 +43,7 @@ public class printPlayers extends Canvas{
 	private int FontWidth;
 	private FontMetrics metrics = null;
 	private Font nameFont = new Font("Gulim",Font.PLAIN,12);
-	private Font speedFont = new Font("Dotum",Font.PLAIN,18);
+	private Font speedFont = new Font("serif",Font.BOLD,18);
 	//시간
 	private float time = 0;
 	private String prtTime;
@@ -62,10 +62,6 @@ public class printPlayers extends Canvas{
 	private Graphics buffg; // 더블버퍼링
 	private Image bimg = null;
 	
-//	private Image three = new ImageIcon(this.getClass().getResource("../img/3.png")).getImage();
-//	private Image two = new ImageIcon(this.getClass().getResource("../img/2.png")).getImage();
-//	private Image one = new ImageIcon(this.getClass().getResource("../img/1.png")).getImage();
-//	private Image GO = new ImageIcon(this.getClass().getResource("../img/GO.png")).getImage();
 	private Image back = new ImageIcon(this.getClass().getResource("../img/background.png")).getImage();
 	private Image breadImg = new ImageIcon(this.getClass().getResource("../img/bread_30x30.png")).getImage();
 	private Image wilkImg = new ImageIcon(this.getClass().getResource("../img/wilk_30x30.png")).getImage();
@@ -127,16 +123,16 @@ public class printPlayers extends Canvas{
 			buffg.drawImage(breadImg, bread.getX(), bread.getY(),null);
 			buffg.drawImage(wilkImg, wilk.getX(), wilk.getY(),null);
 			if(prtTime!=null) {
-				buffg.setFont(timeFont);
-				buffg.setColor(Color.black);
 				metrics = g.getFontMetrics(timeFont);
 				FontWidth = metrics.stringWidth(prtTime);
-				buffg.drawString(prtTime, 800/2-FontWidth/2, 75);
 			}
 			if(iList!=null) {
 				printItems();
 			}
 			printPower();
+			buffg.setFont(timeFont);
+			buffg.setColor(Color.black);
+			buffg.drawString(prtTime, 800/2-FontWidth/2, 75);
 			g.drawImage(bimg, 0,0,this);
 			
 			//	게임오버
@@ -280,7 +276,7 @@ public class printPlayers extends Canvas{
 			newWilk = new BufferedImage(8*wilk.getPower(), 15,BufferedImage.TYPE_INT_RGB);
 			buffg.drawImage(newWilk, 135,655,null);
 			buffg.setFont(speedFont);
-			buffg.setColor(Color.red);
+			buffg.setColor(Color.blue);
 			temp = "윌크 SPEED "+wilk.getMove();
 			buffg.drawString(temp, 630, 565);
 		}
