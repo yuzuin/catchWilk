@@ -85,6 +85,7 @@ public class printPlayers extends Canvas{
 	private Image resizePower = null;
 	//	bgm
 	private boolean bgm = true;
+	private File eatGood = new File("./src/sound/eatGood.wav");
 	private File eat = new File("./src/sound/eat.wav");
 	private File gameOverSnd = new File("./src/sound/gameoverSound.wav");
 	private File file = new File("./src/sound/ingameBGM.wav");
@@ -200,7 +201,7 @@ public class printPlayers extends Canvas{
 				if(iList!=null) {
 					if(eat(p1X,iX,p1Y,iY,70,70)) {
 						if(iList.get(i).getName().equals("speedup")) {
-							eatSound();
+							eatGoodSound();
 							gr.p1.plusMove();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("speeddown")) {
@@ -208,7 +209,7 @@ public class printPlayers extends Canvas{
 							gr.p1.minusMove();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("powerup")) {
-							eatSound();
+							eatGoodSound();
 							gr.p1.plusPower();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("powerdown")) {
@@ -221,7 +222,7 @@ public class printPlayers extends Canvas{
 				if(iList!=null) {
 					if(eat(p2X,iX,p2Y,iY,70,70)) {
 						if(iList.get(i).getName().equals("speedup")) {
-							eatSound();
+							eatGoodSound();
 							gr.p2.plusMove();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("speeddown")) {
@@ -229,7 +230,7 @@ public class printPlayers extends Canvas{
 							gr.p2.minusMove();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("powerup")) {
-							eatSound();
+							eatGoodSound();
 							gr.p2.plusPower();
 							iList.remove(i);
 						}else if(iList.get(i).getName().equals("powerdown")) {
@@ -360,13 +361,24 @@ public class printPlayers extends Canvas{
 		try {
 			AudioInputStream ais = AudioSystem.getAudioInputStream(eat);
 			Clip clip = AudioSystem.getClip();
-//			clip.stop();
 			clip.open(ais);
 			clip.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void eatGoodSound() {
+		try {
+			AudioInputStream ais = AudioSystem.getAudioInputStream(eatGood);
+			Clip clip = AudioSystem.getClip();
+			clip.open(ais);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public void gameoverSound() {
 		
@@ -396,8 +408,9 @@ public class printPlayers extends Canvas{
 			e.printStackTrace();
 		}
 	}
-	
 	public p1DTO getB() {
 		return bread;
 	}
+	
+	
 }

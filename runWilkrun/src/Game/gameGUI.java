@@ -57,8 +57,11 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 	
 	//	sound
 	private File startSnd = new File("./src/sound/startSound.wav");
+	private File enterSnd = new File("./src/sound/enterSound.wav");
 	AudioInputStream ais;
 	Clip clip;
+	AudioInputStream aisE;
+	Clip clipE;
 	
 	
 	gameGUI(GameRoom gr,printPlayers pp){
@@ -67,8 +70,6 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		setFrame();
 		startBGM();
 		startFrame(); //	첫 시작 화면
-//		this.requestFocus();
-//		this.addKeyListener(new Key(gr,this)); // 이 컴포넌트가 이벤트를 받을 수 있도록 한다. 
 	}
 
 
@@ -195,6 +196,19 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		this.add(c,"Center");
 		this.setVisible(true);
 	}
+	private void enterSound() {
+		try {
+			if(aisE==null) {
+				aisE = AudioSystem.getAudioInputStream(enterSnd);
+				clipE = AudioSystem.getClip();
+				clipE.open(aisE);
+				clipE.start();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void startBGM() {
 		try {
 			if(ais==null) {
@@ -241,6 +255,7 @@ public class gameGUI extends JFrame implements ActionListener, KeyListener{
 		
 		if(p1_chk&&p2_chk) {
 			if(gameOn==false) {
+				enterSound();
 				System.out.println("게임 시~~작!");
 				gameOn=true;
 				showRule();

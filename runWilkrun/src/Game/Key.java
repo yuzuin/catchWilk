@@ -57,20 +57,20 @@ public class Key extends Thread implements KeyListener{
    /// -------------------------------------- 윌크 이동
    public void keyTyped(KeyEvent e) {
       // TODO Auto-generated method stub
-      if(e.getKeyChar()=='w') { // 방향키 위쪽을 누르면 이동
-         int keyCode = e.getKeyChar();
+      if(e.getKeyChar()=='w'||e.getKeyChar()=='W'||e.getKeyChar()=='ㅈ') { // 방향키 위쪽을 누르면 이동
+    	  int keyCode = 'w';
          pressedKeys.add(keyCode);
          if(!timer.isRunning()) timer.start();
-      }else if(e.getKeyChar()=='s') { //방향키 아래을 누르면 이동
-         int keyCode = e.getKeyChar();
+      }else if(e.getKeyChar()=='s'||e.getKeyChar()=='S'||e.getKeyChar()=='ㄴ') { //방향키 아래을 누르면 이동
+    	  int keyCode = 's';
          pressedKeys.add(keyCode);
          if(!timer.isRunning()) timer.start();
-      }else if(e.getKeyChar()=='a') { //   왼쪽
-         int keyCode = e.getKeyChar();
+      }else if(e.getKeyChar()=='a'||e.getKeyChar()=='A'||e.getKeyChar()=='ㅁ') { //   왼쪽
+    	  int keyCode = 'a';
          pressedKeys.add(keyCode);
          if(!timer.isRunning()) timer.start();
-      }else if(e.getKeyChar()=='d') {//   오른쪽
-         int keyCode = e.getKeyChar();
+      }else if(e.getKeyChar()=='d'||e.getKeyChar()=='D'||e.getKeyChar()=='ㅇ') {//   오른쪽
+    	  int keyCode = 'd';
          pressedKeys.add(keyCode);
          if(!timer.isRunning()) timer.start();
       }
@@ -119,20 +119,18 @@ public class Key extends Thread implements KeyListener{
       }
       
       /// -------------------------------------- 윌크 멈춤
-      if(e.getKeyChar()=='w') { 
-         int keyCode = e.getKeyChar();
-         
+      if(e.getKeyChar()=='w'||e.getKeyChar()=='W'||e.getKeyChar()=='ㅈ') { 
+    	  int keyCode = 'w';
          pressedKeys.remove(keyCode);
-      }else if(e.getKeyChar()=='s') { 
-         int keyCode = e.getKeyChar();
+      }else if(e.getKeyChar()=='s'||e.getKeyChar()=='S'||e.getKeyChar()=='ㄴ') { 
+    	  int keyCode = 's';
          pressedKeys.remove(keyCode);
-      }else if(e.getKeyChar()=='a') {
-         int keyCode = e.getKeyChar();
+      }else if(e.getKeyChar()=='a'||e.getKeyChar()=='A'||e.getKeyChar()=='ㅁ') {
+    	  int keyCode = 'a';
          pressedKeys.remove(keyCode);
-      }else if(e.getKeyChar()=='d') {
-         int keyCode = e.getKeyChar();
+      }else if(e.getKeyChar()=='d'||e.getKeyChar()=='D'||e.getKeyChar()=='ㅇ') {
+    	  int keyCode = 'd';
          pressedKeys.remove(keyCode);
       }
    }
-
 }
